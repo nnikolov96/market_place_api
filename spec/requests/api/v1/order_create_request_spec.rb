@@ -2,12 +2,15 @@ require 'rails_helper'
 
 RSpec.describe "creates orders", type: :request do
   let(:user) { FactoryBot.create(:user) }
-  let(:product) { FactoryBot.create(:product, user: user)}
-  let(:second_product) { FactoryBot.create(:product, user: user)}
+  let(:product) { FactoryBot.create(:product, :with_quantity, user: user)}
+  let(:second_product) { FactoryBot.create(:product, :with_quantity, user: user)}
 
   before do
     @order_params = { order: { 
-      product_ids: [product.id, second_product.id], total: 50
+      product_ids_and_quantities: [
+        { product_id: product.id, quantity: 2 },
+        { product_id: second_product.id, quantity: 3 },
+      ]
     } }
   end
   context 'when logged in' do
