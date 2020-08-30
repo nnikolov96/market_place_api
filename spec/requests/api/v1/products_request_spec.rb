@@ -13,8 +13,10 @@ RSpec.describe "Api::V1::Products", type: :request do
     get api_v1_product_url(product), as: :json
     expect(response).to have_http_status(:success)
 
-    json_response = JSON.parse(self.response.body)
-    expect(json_response['title']).to eq product.title
+    json_response = JSON.parse(self.response.body, symbolize_names: true)
+    expect(json_response.dig(:data,:relationships, :user, :data, :id)).to eq product.user.id.to_s
+    expect(json_response.dig(:included, 0, :attributes, :email)).to eq product.user.email
+    expect(json_response.dig(:data, :attributes, :title)).to eq product.title
   end
 
   describe 'creates project' do

@@ -7,8 +7,8 @@ RSpec.describe "Api::V1::Users", type: :request do
     get api_v1_user_url(user), as: :json
     expect(response).to have_http_status(:success)
 
-    json_response = JSON.parse(response.body)
-    expect(json_response['email']).to eq user.email
+    json_response = JSON.parse(response.body, symbolize_names: true)
+    expect(json_response.dig(:data, :attributes, :email)).to eq user.email
   end
 
   describe 'creates user' do
