@@ -6,6 +6,7 @@ Rails.application.routes.draw do
       resources :users
       resources :tokens, only: %i[ create ]
       resources :products
+      resources :orders
     end
   end
 end
